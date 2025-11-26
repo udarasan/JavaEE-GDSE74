@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer CRUD Panel</title>
+</head>
+<body>
+
+<h1>Customer CRUD Operations</h1>
+
+<!-- CREATE / UPDATE FORM -->
+<div>
+    <input type="text" id="id" placeholder="Id" />
+    <input type="text" id="name" placeholder="Name" />
+    <input type="text" id="address" placeholder="Address" />
+</div>
+
+<br>
+
+<button id="btnCreate">Create</button>
+<button id="btnGet">Get Customer</button>
+<button id="btnGetAll">Get All</button>
+<button id="btnUpdate">Update</button>
+<button id="btnDelete">Delete</button>
+
+<hr>
+
+<h2>Output</h2>
+<pre id="output"></pre>
+
+<script src="jquery-3.7.1.min.js"></script>
+<script>
+
+    const baseUrl = "http://localhost:8080/Day2_Sample_App_Web_exploded/customer";
+
+    // CREATE
+    $("#btnCreate").click(function () {
+        $.ajax({
+            url: baseUrl,
+            method: "POST",
+            data: {
+                id: $("#id").val(),
+                name: $("#name").val(),
+                address: $("#address").val()
+            },
+            success: function (res) {
+                $("#output").text(res);
+            }
+        });
+    });
+
+    // GET ONE
+    $("#btnGet").click(function () {
+        $.ajax({
+            url: baseUrl + "?id=" + $("#id").val(),
+            method: "GET",
+            success: function (res) {
+                $("#output").text(res);
+            }
+        });
+    });
+
+    // GET ALL
+    $("#btnGetAll").click(function () {
+        $.ajax({
+            url: baseUrl,
+            method: "GET",
+            success: function (res) {
+                $("#output").text(res);
+            }
+        });
+    });
+
+    // UPDATE
+    $("#btnUpdate").click(function () {
+        let id = $("#id").val();
+        let name = $("#name").val();
+        let address = $("#address").val();
+
+        $.ajax({
+            url: baseUrl + "?id=" + id + "&name=" + name + "&address=" + address,
+            method: "PUT",
+            success: function (res) {
+                $("#output").text(res);
+            }
+        });
+    });
+
+
+    // DELETE
+    $("#btnDelete").click(function () {
+        $.ajax({
+            url: baseUrl + "?id=" + $("#id").val(),
+            method: "DELETE",
+            success: function (res) {
+                $("#output").text(res);
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

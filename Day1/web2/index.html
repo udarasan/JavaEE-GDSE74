@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>Sample HTML Page</title>
+</head>
+<body>
+    <h1>Welcome to the Sample HTML Page</h1>
+    <p>This is a simple HTML document.</p>
+    <div id="content" >
+        
+    </div>
+    <button id="btn-ajax">Click Me (Ajax)</button>
+    <script src="jquery-3.7.1.min.js"></script>
+
+    <script>
+        $('#btn-ajax').click(function(){
+            console.log("start");
+            $.ajax({
+                url:'http://localhost:8080/Day1_war_exploded/hello',
+                method:'GET',
+                async:false,
+                success:function(response){
+                    console.log(response);
+                },
+                error:function(){
+                    console.log('Error occurred while fetching data.');
+                }
+            })
+            console.log("end");
+        });
+    </script>
+</body>
+</html>
