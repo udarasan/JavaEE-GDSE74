@@ -93,17 +93,28 @@ public class CustomerServlet extends HttpServlet {
         String name = req.getParameter("name");
         String address = req.getParameter("address");
 
-        for (Customer c : customers) {
-            if (c.getId().equals(id)) {
-                if (name != null) c.setName(name);
-                if (address != null) c.setAddress(address);
-
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection= DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/javaeeapp",
+                    "root","12345678");
+            String query="update customer set name=?,address=? where id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,address);
+            preparedStatement.setString(3,id);
+            int rowInserted=preparedStatement.executeUpdate();
+            if (rowInserted>0){
                 resp.getWriter().println("Customer updated successfully");
-                return;
+            }else {
+                resp.getWriter().println("Customer not updated");
             }
+            connection.close();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
-        resp.getWriter().println("Customer not found for update");
     }
 
     // DELETE
@@ -111,14 +122,25 @@ public class CustomerServlet extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
 
-        for (Customer c : customers) {
-            if (c.getId().equals(id)) {
-                customers.remove(c);
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection= DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/javaeeapp",
+                    "root","12345678");
+            String query="delete from customer where id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,id);
+            int rowDeleted=preparedStatement.executeUpdate();
+            if (rowDeleted>0){
                 resp.getWriter().println("Customer deleted successfully");
-                return;
+            }else {
+                resp.getWriter().println("Customer not deleted");
             }
+            connection.close();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-
-        resp.getWriter().println("Customer not found for deletion");
     }
 }
