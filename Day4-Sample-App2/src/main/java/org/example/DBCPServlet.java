@@ -1,5 +1,6 @@
 package org.example;
 
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,14 +16,9 @@ public class DBCPServlet extends HttpServlet {
     BasicDataSource ds;
     @Override
     public void init() throws ServletException {
-        //database configuration
-        ds = new BasicDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:3306/javaeeapp");
-        ds.setUsername("root");
-        ds.setPassword("12345678");
-        ds.setInitialSize(50);
-        ds.setMaxTotal(100);
+        ServletContext servletContext = getServletContext();
+        ds = (BasicDataSource) servletContext
+                .getAttribute("datasource");
     }
 
     @Override
@@ -54,6 +50,10 @@ public class DBCPServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         String id = req.getParameter("id");
+
+        ServletContext servletContext = getServletContext();
+        String s= servletContext.getAttribute("test").toString();
+        System.out.println(s);
         try {
             Connection connection= ds.getConnection();
             if (id==null){
