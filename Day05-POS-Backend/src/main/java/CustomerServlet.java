@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
@@ -27,9 +29,12 @@ public class CustomerServlet  extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String id="C001";
-            String name="Udara San";
-            String address="Colombo";
+            Gson gson = new Gson();
+            JsonObject customer = gson.fromJson(request.getReader(), JsonObject.class);
+            String id=customer.get("cid").getAsString();
+            String name=customer.get("cname").getAsString();
+            String address=customer.get("caddress").getAsString();
+
             Connection connection=ds.getConnection();
             String query="Insert into Customer (id,name,address) values (?,?,?)";
             PreparedStatement preparedStatement=connection.prepareStatement(query);
