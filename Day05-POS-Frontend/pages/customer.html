@@ -12,5 +12,49 @@
     <button onclick="window.location.href='../index.html'">Home</button>
 </div>
 <h1>Customers</h1>
+<div id="customer-data">
+    <input type="text" id="customer-id" placeholder="Customer ID">
+    <input type="text" id="customer-name" placeholder="Customer Name">
+    <input type="text" id="customer-address" placeholder="Customer Address">
+    <button onclick="saveCustomer()"> Save </button>
+    <button onclick="updateCustomer()"> Update </button>
+    <button onclick="deleteCustomer()"> Delete </button>
+</div>
+<div id="customers">
+    <table id="customer-table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Customer Name</th>
+            <th>Customer Address</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+</div>
+<script src="../assests/js/jquery-3.7.1.min.js"></script>
+<script>
+    function saveCustomer() {
+        const cid = $("#customer-id").val();
+        const cname = $("#customer-name").val();
+        const caddress = $("#customer-address").val();
+        //ajax request (POST)
+    }
+    function updateCustomer() {
+        alert("Customer Updated")
+    }
+    function deleteCustomer() {
+        alert("Customer Deleted")
+    }
+
+    function getAllCustomer() {
+        alert("Customer GetAll")
+    }
+    window.onload(
+        getAllCustomer()
+    )
+</script>
 </body>
 </html>
