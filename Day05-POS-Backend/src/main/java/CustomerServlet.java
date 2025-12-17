@@ -54,9 +54,36 @@ public class CustomerServlet  extends HttpServlet {
         }
     }
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {}
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            Gson gson = new Gson();
+            JsonObject customer = gson.fromJson(request.getReader(), JsonObject.class);
+            String id=customer.get("cid").getAsString();
+            String name=customer.get("cname").getAsString();
+            String address=customer.get("caddress").getAsString();
+
+            Connection connection=ds.getConnection();
+            String query="update customer set name=?,address=? where id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,name);
+            preparedStatement.setString(2,address);
+            preparedStatement.setString(3,id);
+            int rowInserted=preparedStatement.executeUpdate();
+            if(rowInserted>0){
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().println("Customer updated successfully");
+            }else {
+                response.setContentType("text/html;charset=UTF-8");
+                response.getWriter().println("Customer updated saved");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {}
 }
