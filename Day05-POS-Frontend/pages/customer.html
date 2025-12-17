@@ -41,6 +41,23 @@
         const cname = $("#customer-name").val();
         const caddress = $("#customer-address").val();
         //ajax request (POST)
+        $.ajax({
+            url:'http://localhost:8080/Day05_POS_Backend_Web_exploded/api/v1/customer',
+            method:'POST',
+            contentType:'application/json',
+            data:JSON.stringify({
+                "cid":cid,
+                "cname":cname,
+                "caddress":caddress
+            }),
+            success:function (response) {
+                console.log(response)
+            },
+            error:function (error) {
+                console.log(error)
+            }
+        })
+
     }
     function updateCustomer() {
         alert("Customer Updated")
@@ -50,7 +67,16 @@
     }
 
     function getAllCustomer() {
-        alert("Customer GetAll")
+       $.ajax({
+           url:'http://localhost:8080/Day05_POS_Backend_Web_exploded/api/v1/customer',
+           method:'GET',
+           success:function (response) {
+               console.log(response)
+           },
+           error:function (error) {
+               console.log(error)
+           }
+       })
     }
     window.onload(
         getAllCustomer()
