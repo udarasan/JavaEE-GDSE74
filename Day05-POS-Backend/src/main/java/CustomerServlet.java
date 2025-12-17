@@ -107,5 +107,23 @@ public class CustomerServlet  extends HttpServlet {
         }
     }
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {}
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id=req.getParameter("cid");
+        try {
+            Connection connection=ds.getConnection();
+            String query="delete from customer where id=?";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            preparedStatement.setString(1,id);
+            int rowDeleted=preparedStatement.executeUpdate();
+            if(rowDeleted>0){
+                resp.setContentType("text/html;charset=UTF-8");
+                resp.getWriter().println("Customer deleted successfully");
+            }else {
+                resp.setContentType("text/html;charset=UTF-8");
+                resp.getWriter().println("Customer deleted Failed");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

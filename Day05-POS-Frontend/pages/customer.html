@@ -52,6 +52,7 @@
             }),
             success:function (response) {
                 console.log(response)
+                getAllCustomer()
             },
             error:function (error) {
                 console.log(error)
@@ -75,6 +76,7 @@
             }),
             success:function (response) {
                 console.log(response)
+                getAllCustomer()
             },
             error:function (error) {
                 console.log(error)
@@ -82,7 +84,17 @@
         })
     }
     function deleteCustomer() {
-        alert("Customer Deleted")
+        const cid=$('#customer-id').val()
+        $.ajax({
+            url:'http://localhost:8080/Day05_POS_Backend_Web_exploded/api/v1/customer?cid='+cid,
+            method:'DELETE',
+            success:function (response) {
+                getAllCustomer();
+            },
+            error:function (error) {
+                console.log(error)
+            }
+        })
     }
 
     function getAllCustomer() {
@@ -90,6 +102,7 @@
            url:'http://localhost:8080/Day05_POS_Backend_Web_exploded/api/v1/customer',
            method:'GET',
            success:function (response) {
+               $("#tableBody").empty()
                for (let customer of response){
                    const tablerow="<tr> <td>"+customer.cid+"</td> <td>"+customer.cname+"</td><td>"+customer.caddress+"</td></tr>"
                    $("#tableBody").append(tablerow)
