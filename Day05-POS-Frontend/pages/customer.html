@@ -29,7 +29,7 @@
             <th>Customer Address</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tableBody">
 
         </tbody>
     </table>
@@ -90,7 +90,10 @@
            url:'http://localhost:8080/Day05_POS_Backend_Web_exploded/api/v1/customer',
            method:'GET',
            success:function (response) {
-               console.log(response)
+               console.log(response[0].cid)
+               console.log(response.length)
+               const tablerow="<tr> <td>"+response[0].cid+"</td> <td>"+response[0].cname+"</td><td>"+response[0].caddress+"</td></tr>"
+               $("#tableBody").append(tablerow)
            },
            error:function (error) {
                console.log(error)
