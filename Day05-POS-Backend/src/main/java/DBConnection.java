@@ -8,7 +8,8 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class DBConnection implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        ServletContext servletContext = event.getServletContext();
+        ServletContext servletContext =
+                event.getServletContext();
         BasicDataSource ds = new BasicDataSource();
         ds = new BasicDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
