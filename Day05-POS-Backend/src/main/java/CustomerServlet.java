@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet(urlPatterns = "/api/v1/customer")
@@ -55,7 +57,27 @@ public class CustomerServlet  extends HttpServlet {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        try {
+            JsonArray customerList = new JsonArray();
+            Connection connection=ds.getConnection();
+            String query="Select * from Customer";
+            PreparedStatement preparedStatement=connection.prepareStatement(query);
+            ResultSet resultSet=preparedStatement.executeQuery();
+            while(resultSet.next()){
+                String id=resultSet.getString("id");
+                String name=resultSet.getString("name");
+                String address=resultSet.getString("address");
+                JsonObject customer=new JsonObject();
+                customer.addProperty("cid",id);
+                customer.addProperty("cname",name);
+                customer.addProperty("caddress",address);
+                customerList.add(customer);
+            }
+            response.getWriter().println(customerList.toString());
+            response.setContentType("application/json;charset=UTF-8");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
