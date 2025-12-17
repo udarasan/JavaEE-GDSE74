@@ -10,6 +10,29 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.IOException;
 import java.sql.*;
+//MIME TYPES - Multipurpose Internet Mail Extensions
+// A MIME type(Media type) is the content negotiation
+// protocol that tells the client(server) what type of
+// data the server(client) is sending
+
+//they are used in HTTTP headers (like content-Type)
+// to describe the format of data being transmitted
+
+//Basic Structure - (MainType/SubType)
+//examples
+    //text/plain  //text/html
+    //application/json  //application/javascript
+    //multipart/form-data
+    //image/jpeg
+
+// Common MIME Types
+// File Type            MIME Type
+// HTML                 text/html
+// JSON                 application/json
+// Text                 text/plain
+// Image(PNG)           image/png
+
+
 
 @WebServlet(urlPatterns = "/api/v1/customer")
 public class DBCPServlet extends HttpServlet {
